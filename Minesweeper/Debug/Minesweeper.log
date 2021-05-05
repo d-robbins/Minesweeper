@@ -1,0 +1,29 @@
+﻿  game.cpp
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(11,23): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(14,24): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(17,51): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(17,47): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(18,54): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(18,51): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(80,27): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(82,28): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(140,23): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+  Generating Code...
+  Minesweeper.vcxproj -> D:\minesweeper\Minesweeper\Debug\Minesweeper.exe

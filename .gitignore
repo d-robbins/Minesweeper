@@ -1,0 +1,7 @@
+Circuit.sln
+Release/
+packages/
+sfml/
+.vs/
+images/
+fonts/
