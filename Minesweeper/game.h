@@ -17,6 +17,8 @@ public:
 
 	void PickTile(const int& row, const int& col);
 
+	bool HasWon();
+
 	class Tile
 	{
 	public:

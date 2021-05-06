@@ -40,7 +40,7 @@ void CGame::Render(sf::RenderWindow& window)
 	{
 		for (auto &col : row)
 		{
-			if (!col->IsHidden() && col->GetNum() == 0)
+			if (!col->IsHidden() && !col->IsBomb())
 			{
 				col->GetTile().setFillColor(sf::Color(220, 220, 220, 255));
 			}
@@ -75,6 +75,22 @@ void CGame::PickTile(const int& row, const int& col)
 	{
 		mBoard[row][col]->PropogateFlips();
 	}
+}
+
+bool CGame::HasWon()
+{
+	for (const auto& row : mBoard)
+	{
+		for (const auto& col : row)
+		{
+			if (col->IsHidden() && !col->IsBomb())
+			{
+				return false;
+			}
+		}
+	}
+	
+	return true;
 }
 
 void CGame::AssignNumbers()
@@ -194,7 +210,7 @@ void CGame::Tile::PropogateFlips()
 	auto col = mTile.getPosition().x / mGame->mTw;
 
 	auto low_bound = (mGame->mHeight / mGame->mTh) - 1;
-	auto up_bound = (mGame->mWidth / mGame->mTw) - 1;
+	auto right_bound = (mGame->mWidth / mGame->mTw) - 1;
 
 	if (row < low_bound)
 	{
@@ -216,7 +232,7 @@ void CGame::Tile::PropogateFlips()
 		}
 	}
 	
-	if (col < up_bound)
+	if (col < right_bound)
 	{
 		auto right = mGame->mBoard[row][col + 1];
 

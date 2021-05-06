@@ -7,8 +7,8 @@
 
 #include "Game.h"
 
-const int WIN_W = 1280;
-const int WIN_H = 720;
+const int WIN_W = 640;
+const int WIN_H = 480;
 
 const int C_W = 40;
 const int C_H = 40;
@@ -46,6 +46,11 @@ int main()
 		window.clear(sf::Color::White);
 
 		game.Render(window);
+
+		if (game.HasWon())
+		{
+			std::cout << "WINNER!!!!\n";
+		}
 
 		window.display();
 	}

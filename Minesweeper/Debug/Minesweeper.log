@@ -11,69 +11,67 @@ D:\minesweeper\Minesweeper\Minesweeper\game.cpp(17,55): warning C4244: 'argument
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(82,27): warning C4018: '<': signed/unsigned mismatch
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(84,28): warning C4018: '<': signed/unsigned mismatch
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(169,23): warning C4018: '<': signed/unsigned mismatch
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(182,46): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(98,27): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(100,28): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(185,23): warning C4018: '<': signed/unsigned mismatch
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(198,46): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(182,34): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(198,34): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(201,34): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(217,34): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(201,39): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(217,39): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(211,34): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(227,34): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(211,39): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(227,39): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(215,22): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(231,22): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(215,27): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(231,27): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(221,30): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(237,30): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(221,39): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(237,39): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(231,29): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(247,29): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-D:\minesweeper\Minesweeper\Minesweeper\game.cpp(231,38): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
+D:\minesweeper\Minesweeper\Minesweeper\game.cpp(247,38): warning C4244: 'argument': conversion from 'T' to 'const unsigned int', possible loss of data
           with
           [
               T=float
           ]
-  main.cpp
-  Generating Code...
   Minesweeper.vcxproj -> D:\minesweeper\Minesweeper\Debug\Minesweeper.exe
