@@ -6,12 +6,12 @@
 const int DIFF_MULTIPLIER = 3;
 
 CGame::CGame(const int& width, const int& height, const int& tw, const int& th)
-	: mWidth(width), mHeight(height), mTw(tw), mTh(th)
+	: mWidth(width - 2 * tw), mHeight(height), mTileWidth(tw), mTileHeight(th)
 {
-	for (size_t i = 0; i < height; i += th)
+	for (size_t i = 0; i < mHeight; i += mTileHeight)
 	{
 		std::vector <std::shared_ptr<Tile>> new_row;
-		for (size_t j = 0; j < width; j += tw)
+		for (size_t j = 0; j < mWidth; j += mTileWidth)
 		{
 			new_row.push_back(std::make_shared<Tile>(this));
 			new_row.back()->GetTile().setPosition(sf::Vector2f(j, i));
@@ -23,19 +23,32 @@ CGame::CGame(const int& width, const int& height, const int& tw, const int& th)
 	// Load Font
 	if (!mFont.loadFromFile("fonts/arial.ttf"))
 	{
-		std::cerr << "Error loading font!\n";
+		std::cout << "Error loading font!\n";
 		exit(-1);
 	}
 
 	mText.setFont(mFont);
 
-	PlaceMines();
+	mText.setCharacterSize(24);
+	mText.setFillColor(sf::Color::Black);
+	mText.setStyle(sf::Text::Bold);
 
-	AssignNumbers();
+	mLevelText.setFont(mFont);
+
+	mLevelText.setCharacterSize(24);
+	mLevelText.setPosition(sf::Vector2f((float)mWidth + 5.0f, 0.0f));
+	mLevelText.setFillColor(sf::Color::Black);
+	mLevelText.setStyle(sf::Text::Bold);
+
+	PlayNextLevel();
 }
 
 void CGame::Render(sf::RenderWindow& window)
 {
+	mLevelText.setString("Level:\n" + std::to_string(mLevel));
+	
+	window.draw(mLevelText);
+
 	for (auto& row : mBoard)
 	{
 		for (auto &col : row)
@@ -51,9 +64,6 @@ void CGame::Render(sf::RenderWindow& window)
 			{
 				mText.setString(std::to_string(col->GetNum()));
 				mText.setPosition(col->GetTile().getPosition() + sf::Vector2f(6, 6));
-				mText.setCharacterSize(24);
-				mText.setFillColor(sf::Color::Black);
-				mText.setStyle(sf::Text::Bold);
 
 				window.draw(mText);
 			}
@@ -63,17 +73,19 @@ void CGame::Render(sf::RenderWindow& window)
 
 void CGame::PickTile(const int& row, const int& col)
 {
-	if (mBoard[row][col]->IsBomb() == true)
+	auto tile = mBoard[row][col];
+
+	if (tile->IsBomb() == true)
 	{
 		std::cout << "GAME OVER!!!!!!!!\n";
 	}
-	else if (mBoard[row][col]->GetNum() != 0)
+	else if (tile->GetNum() != 0 && !tile->IsBomb())
 	{
-		mBoard[row][col]->SetHidden(false);
+		tile->SetHidden(false);
 	}
-	else if (mBoard[row][col]->GetNum() == 0)
+	else if (tile->GetNum() == 0)
 	{
-		mBoard[row][col]->PropogateFlips();
+		tile->PropogateFlips();
 	}
 }
 
@@ -93,11 +105,28 @@ bool CGame::HasWon()
 	return true;
 }
 
+void CGame::PlayNextLevel()
+{
+	mLevel++;
+	
+	for (auto& row : mBoard)
+	{
+		for (auto& col : row)
+		{
+			col->Reset();
+		}
+	}
+
+	PlaceMines();
+
+	AssignNumbers();
+}
+
 void CGame::AssignNumbers()
 {
-	for (size_t row = 0; row < (mHeight / mTh); row++)
+	for (size_t row = 0; row < (mHeight / mTileHeight); row++)
 	{
-		for (size_t col = 0; col < (mWidth / mTw); col++)
+		for (size_t col = 0; col < (mWidth / mTileWidth); col++)
 		{
 			mBoard[row][col]->SetNumber(CountBombs(row, col));
 		}
@@ -106,11 +135,16 @@ void CGame::AssignNumbers()
 
 int CGame::CountBombs(const int& row, const int& col)
 {
+	if (mBoard[row][col]->IsBomb())
+	{
+		return -1;
+	}
+
 	int total = 0;
 	int t = -1, b = -1, l = -1, r = -1;
 
-	auto low_bound = (mHeight / mTh) - 1;
-	auto right_bound = (mWidth / mTw) - 1;
+	auto low_bound = (mHeight / mTileHeight) - 1;
+	auto right_bound = (mWidth / mTileWidth) - 1;
 
 	if (row > 0 && col > 0 && row < low_bound && col < right_bound)
 	{
@@ -177,10 +211,12 @@ int CGame::CountBombs(const int& row, const int& col)
 
 void CGame::PlaceMines()
 {
-	int mines = DIFF_MULTIPLIER * mLevel * this->mWidth / mTw;
+	auto area = ((mWidth / mTileWidth) * (mHeight / mTileHeight));
+	auto scalar = (double)mLevel / 10;
+	int mines = scalar * area;
 
-	auto boundX = this->mWidth / mTw;
-	auto boundY = this->mHeight / mTh;
+	auto boundX = mWidth / mTileWidth;
+	auto boundY = mHeight / mTileHeight;
 	
 	for (size_t i = 0; i < mines; i++)
 	{
@@ -195,10 +231,20 @@ void CGame::PlaceMines()
 CGame::Tile::Tile(CGame* game)
 	: mGame(game)
 {
-	mTile.setSize(sf::Vector2f(mGame->mTw, mGame->mTh));
+	mTile.setSize(sf::Vector2f(mGame->mTileWidth, mGame->mTileHeight));
 	mTile.setFillColor(sf::Color(128, 128, 128, 255));
 	mTile.setOutlineColor(sf::Color::Black);
 	mTile.setOutlineThickness(1.0f);
+}
+
+// TILE FUNCTIONS
+
+void CGame::Tile::Reset()
+{
+	mNum = -1;
+	mHit = false;
+	mBomb = false;
+	mHidden = true;
 }
 
 void CGame::Tile::PropogateFlips()
@@ -206,11 +252,11 @@ void CGame::Tile::PropogateFlips()
 	this->mHidden = false;
 	this->mHit = true;
 
-	auto row = mTile.getPosition().y / mGame->mTh;
-	auto col = mTile.getPosition().x / mGame->mTw;
+	auto row = mTile.getPosition().y / mGame->mTileHeight;
+	auto col = mTile.getPosition().x / mGame->mTileWidth;
 
-	auto low_bound = (mGame->mHeight / mGame->mTh) - 1;
-	auto right_bound = (mGame->mWidth / mGame->mTw) - 1;
+	auto low_bound = (mGame->mHeight / mGame->mTileHeight) - 1;
+	auto right_bound = (mGame->mWidth / mGame->mTileWidth) - 1;
 
 	if (row < low_bound)
 	{

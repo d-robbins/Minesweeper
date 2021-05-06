@@ -41,6 +41,14 @@ int main()
 				int y = event.mouseButton.y / C_H;
 				game.PickTile(y, x);
 			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Q)
+				{
+					game.PlayNextLevel();
+				}			
+			}
 		}
 
 		window.clear(sf::Color::White);
@@ -49,10 +57,11 @@ int main()
 
 		if (game.HasWon())
 		{
-			std::cout << "WINNER!!!!\n";
+			game.PlayNextLevel();
 		}
 
 		window.display();
 	}
+
 	return 0;
 }

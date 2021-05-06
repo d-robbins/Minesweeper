@@ -12,12 +12,13 @@ public:
 	CGame() = delete;
 	~CGame() {}
 
-
 	void Render(sf::RenderWindow& window);
 
 	void PickTile(const int& row, const int& col);
 
 	bool HasWon();
+
+	void PlayNextLevel();
 
 	class Tile
 	{
@@ -37,6 +38,8 @@ public:
 
 		sf::RectangleShape& GetTile() { return mTile; }
 
+		void Reset();
+
 		void PropogateFlips();
 
 		void Hit() { mHit = true; }
@@ -53,22 +56,23 @@ public:
 		bool mHidden = true;
 	};
 
-
 private:
 	void AssignNumbers();
 	void PlaceMines();
-	//void PropogateFlips(const int& row, const int& col);
-
+	
 	int CountBombs(const int& row, const int& col);
 
 	sf::Font mFont;
 	sf::Text mText;
+	sf::Text mLevelText;
 
 	// Board width, board height, tile width, tile height
-	int mWidth, mHeight, mTw, mTh;
+	int mWidth, mHeight, mTileWidth, mTileHeight;
+
+	// Board
 	std::vector<std::vector<std::shared_ptr<Tile>>> mBoard;
 
 	// Current level
-	int mLevel = 1;
+	int mLevel = 0;
 };
 
