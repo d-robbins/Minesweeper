@@ -5,3 +5,8 @@ sfml/
 .vs/
 images/
 fonts/
+*.tlog
+*.log
+*.ilk
+*.pdb
+*.idp

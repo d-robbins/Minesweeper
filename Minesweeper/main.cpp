@@ -7,16 +7,19 @@
 
 #include "Game.h"
 
-const int WIN_W = 500;
-const int WIN_H = 500;
+const int WIN_W = 1280;
+const int WIN_H = 720;
 
-const int C_W = 50;
-const int C_H = 50;
+const int C_W = 40;
+const int C_H = 40;
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "Minesweeper");
 	
+	window.setFramerateLimit(30);
+	window.setVerticalSyncEnabled(true);
+
 	// Seed random
 	srand((unsigned)time(0));
 
@@ -34,12 +37,11 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
-				int x = event.mouseButton.x / 50;
-				int y = event.mouseButton.y / 50;
+				int x = event.mouseButton.x / C_W;
+				int y = event.mouseButton.y / C_H;
 				game.PickTile(y, x);
 			}
 		}
-
 
 		window.clear(sf::Color::White);
 
