@@ -8,18 +8,6 @@ const int DIFF_MULTIPLIER = 3;
 CGame::CGame(const int& width, const int& height, const int& tw, const int& th)
 	: mWidth(width - 2 * tw), mHeight(height), mTileWidth(tw), mTileHeight(th)
 {
-	for (size_t i = 0; i < mHeight; i += mTileHeight)
-	{
-		std::vector <std::shared_ptr<Tile>> new_row;
-		for (size_t j = 0; j < mWidth; j += mTileWidth)
-		{
-			new_row.push_back(std::make_shared<Tile>(this));
-			new_row.back()->GetTile().setPosition(sf::Vector2f(j, i));
-		}
-
-		this->mBoard.push_back(new_row);
-	}
-
 	// Load Font
 	if (!mFont.loadFromFile("fonts/arial.ttf"))
 	{
@@ -45,7 +33,18 @@ CGame::CGame(const int& width, const int& height, const int& tw, const int& th)
 
 void CGame::Render(sf::RenderWindow& window)
 {
-	mLevelText.setString("Level:\n" + std::to_string(mLevel));
+	if (!mOver)
+	{
+		mLevelText.setString("Level:\n" + std::to_string(mLevel));
+	}
+	else if (!mLost)
+	{
+		mLevelText.setString("Level:\n" + std::to_string(mLevel) + "\n\nWin!\n\nPress\n R\nTo\nPlay");
+	}
+	else if (mLost && mOver)
+	{
+		mLevelText.setString("Level:\n" + std::to_string(mLevel) + "\n\nLoss!\n\nPress\n R\nTo\nPlay");
+	}
 	
 	window.draw(mLevelText);
 
@@ -59,6 +58,15 @@ void CGame::Render(sf::RenderWindow& window)
 			}
 
 			window.draw(col->GetTile());
+
+			if (col->IsBomb() && mLost)
+			{
+				col->GetTile().setFillColor(sf::Color::Red);
+			}
+			else if (col->IsBomb())
+			{ 
+				col->GetTile().setFillColor(sf::Color(128, 128, 128, 255));
+			}
 
 			if (!col->IsHidden() && col->GetNum() != 0)
 			{
@@ -78,6 +86,8 @@ void CGame::PickTile(const int& row, const int& col)
 	if (tile->IsBomb() == true)
 	{
 		std::cout << "GAME OVER!!!!!!!!\n";
+		mLost = true;
+		mOver = true;
 	}
 	else if (tile->GetNum() != 0 && !tile->IsBomb())
 	{
@@ -109,17 +119,21 @@ void CGame::PlayNextLevel()
 {
 	mLevel++;
 	
-	for (auto& row : mBoard)
-	{
-		for (auto& col : row)
-		{
-			col->Reset();
-		}
-	}
+	DestroyBoard();
+	BuildBoard();
 
 	PlaceMines();
 
 	AssignNumbers();
+}
+
+void CGame::Reset()
+{
+	mOver = false;
+	mLost = false;
+	mLevel = 0;
+
+	PlayNextLevel();
 }
 
 void CGame::AssignNumbers()
@@ -226,6 +240,26 @@ void CGame::PlaceMines()
 		this->mBoard[rY][rX]->SetBomb(true);
 		this->mBoard[rY][rX]->GetTile().setFillColor(sf::Color::Black);
 	}
+}
+
+void CGame::BuildBoard()
+{
+	for (size_t i = 0; i < mHeight; i += mTileHeight)
+	{
+		std::vector <std::shared_ptr<Tile>> new_row;
+		for (size_t j = 0; j < mWidth; j += mTileWidth)
+		{
+			new_row.push_back(std::make_shared<Tile>(this));
+			new_row.back()->GetTile().setPosition(sf::Vector2f(j, i));
+		}
+
+		this->mBoard.push_back(new_row);
+	}
+}
+
+void CGame::DestroyBoard()
+{
+	mBoard.clear();
 }
 
 CGame::Tile::Tile(CGame* game)

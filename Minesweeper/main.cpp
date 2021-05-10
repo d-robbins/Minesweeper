@@ -16,7 +16,7 @@ const int C_H = 40;
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "Minesweeper");
-	
+
 	window.setFramerateLimit(30);
 	window.setVerticalSyncEnabled(true);
 
@@ -24,6 +24,10 @@ int main()
 	srand((unsigned)time(0));
 
 	CGame game(WIN_W, WIN_H, C_W, C_H);
+
+	bool won = false;
+	bool playing = true;
+	bool lost = false;
 
 	while (window.isOpen())
 	{
@@ -35,20 +39,36 @@ int main()
 				window.close();
 			}
 
-			if (event.type == sf::Event::MouseButtonPressed)
+			if (playing && !lost)
 			{
-				int x = event.mouseButton.x / C_W;
-				int y = event.mouseButton.y / C_H;
-				game.PickTile(y, x);
+				if (event.type == sf::Event::MouseButtonPressed)
+				{
+					int x = event.mouseButton.x / C_W;
+					int y = event.mouseButton.y / C_H;
+					game.PickTile(y, x);
+				}
 			}
 
-			if (event.type == sf::Event::KeyPressed)
+			if (!playing && (lost || won))
 			{
-				if (event.key.code == sf::Keyboard::Q)
+				if (event.type == sf::Event::KeyPressed)
 				{
-					game.PlayNextLevel();
-				}			
+					if (event.key.code == sf::Keyboard::R)
+					{
+						std::cout << "RESET";
+						game.Reset();
+						won = false;
+						playing = true;
+						lost = false;
+					}
+				}
 			}
+		}
+
+		if (game.HasLost())
+		{
+			lost = true;
+			playing = false;
 		}
 
 		window.clear(sf::Color::White);
@@ -57,7 +77,16 @@ int main()
 
 		if (game.HasWon())
 		{
-			game.PlayNextLevel();
+			if (game.GetLevel() == 3)
+			{
+				won = true;
+				playing = false;
+				game.Win();
+			}
+			else
+			{
+				game.PlayNextLevel();
+			}
 		}
 
 		window.display();

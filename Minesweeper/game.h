@@ -18,7 +18,15 @@ public:
 
 	bool HasWon();
 
+	int GetLevel() const { return mLevel; }
+
 	void PlayNextLevel();
+
+	void Win() { mOver = true; }
+
+	void Reset();
+
+	bool HasLost() const { return mLost; }
 
 	class Tile
 	{
@@ -59,6 +67,8 @@ public:
 private:
 	void AssignNumbers();
 	void PlaceMines();
+	void BuildBoard();
+	void DestroyBoard();
 	
 	int CountBombs(const int& row, const int& col);
 
@@ -68,6 +78,9 @@ private:
 
 	// Board width, board height, tile width, tile height
 	int mWidth, mHeight, mTileWidth, mTileHeight;
+
+	bool mOver = false;
+	bool mLost = false;
 
 	// Board
 	std::vector<std::vector<std::shared_ptr<Tile>>> mBoard;
